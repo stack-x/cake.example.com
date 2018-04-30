@@ -46,4 +46,26 @@ class ArticlesController extends AppController
         }
         $this->set('article', $article);
     }
+
+    public function edit($id = null)
+    {
+        $article = $this->Articles->findById($id)->firstOrFail();
+        if ($this->request->is(['post', 'put'])) {
+            $this->Articles->patchEntity($article, $this->request->getData());
+
+            $article->slug = Text::slug(
+                strtolower(
+                    substr($article->title, 0, 191)
+                )
+            );
+
+            if ($this->Articles->save($article)) {
+                $this->Flash->success('Your article has been updated.');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('An error has occured.');
+        }
+
+        $this->set('article', $article);
+    }
 }
