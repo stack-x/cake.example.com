@@ -68,4 +68,15 @@ class ArticlesController extends AppController
 
         $this->set('article', $article);
     }
+
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+
+        $article = $this->Articles->findById($id)->firstOrFail();
+        if ($this->Articles->delete($article)) {
+            $this->Flash->success("The article: {$article->title} has been deleted.");
+            return $this->redirect(['action' => 'index']);
+        }
+    }
 }

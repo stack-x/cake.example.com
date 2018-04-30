@@ -3,10 +3,15 @@
 <div><?php echo $article->body; ?></div>
 <div>
     <?php
-    debug($article);
         echo $this->Html->link(
             'Edit',
             ['action' => 'edit', $article->id]
+        );
+        echo '&nbsp;|&nbsp;';
+        echo $this->Form->postLink(
+            'Delete',
+            ['action' => 'delete', $article->id],
+            ['confirm' => __('Are you sure, you want to delete {0}?', $article->title)]
         );
     ?>
 </div>
