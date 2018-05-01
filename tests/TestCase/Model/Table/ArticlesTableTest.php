@@ -51,33 +51,26 @@ class ArticlesTableTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize()
+    public function testCreateSlug()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $result = $this->Articles->createSlug('Hello World');
+        $this->assertEquals('hello-world', $result);
+        $result = $this->Articles->createSlug('Hello!, World');
+        $this->assertEquals('hello-world', $result);
+        $result = $this->Articles->createSlug('Hello   World*$');
+        $this->assertEquals('hello-world', $result);
+        $result = $this->Articles->createSlug('Hello-   World-');
+        $this->assertEquals('hello-world', $result);
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault()
+    public function  testBeforeMarshal()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $article = $this->Articles->newEntity();
+        $article = $this->Articles->patchEntity($article, ['title'=>'Hello World, It\'s a fine day']);
+        $this->Articles->save($article);
 
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $result = $this->Articles->find()->first();
+        $this->assertEquals('hello-world-it-s-a-fine-day', $result['slug']);
+
     }
 }

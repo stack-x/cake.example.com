@@ -31,11 +31,6 @@ class ArticlesController extends AppController
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
-            $article->slug = Text::slug(
-                strtolower(
-                    substr($article->title, 0, 191)
-                )
-            );
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success('Your article has been created.');
@@ -52,12 +47,6 @@ class ArticlesController extends AppController
         $article = $this->Articles->findById($id)->firstOrFail();
         if ($this->request->is(['post', 'put'])) {
             $this->Articles->patchEntity($article, $this->request->getData());
-
-            $article->slug = Text::slug(
-                strtolower(
-                    substr($article->title, 0, 191)
-                )
-            );
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success('Your article has been updated.');

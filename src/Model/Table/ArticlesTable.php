@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 
 /**
@@ -37,6 +38,13 @@ class ArticlesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+    }
+
+    public function beforeMarshal($event, $data)
+    {
+        if (!isset($data['slug']) && !empty($data['title'])) {
+            $data['slug'] = $this->createSlug($data['title']);
+        }
     }
 
     /**
@@ -88,5 +96,14 @@ class ArticlesTable extends Table
         $rules->add($rules->isUnique(['slug']));
 
         return $rules;
+    }
+
+    public function createSlug($title)
+    {
+        return Text::slug(
+            strtolower(
+                substr($title, 0, 191)
+            )
+        );
     }
 }
