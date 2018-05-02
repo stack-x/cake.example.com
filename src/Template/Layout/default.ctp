@@ -44,7 +44,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <ul class="right">
             <li><a href="/articles">Articles</a></li>
             <?php if(!empty($session['Auth']['User']['id'])): ?>
-                <li><a href="/users/users">Users</a></li>
+                <?php if(!empty($session['Auth']['User']['is_superuser'])): ?>
+                    <li><a href="/users/users">Users</a></li>
+                <?php endif; ?>
                 <li><a href="/users/users/logout">Logout</a></li>
             <?php else: ?>
                 <li><a href="/users/users/login">Login</a></li>
