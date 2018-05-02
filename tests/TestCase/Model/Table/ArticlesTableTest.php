@@ -71,6 +71,5 @@ class ArticlesTableTest extends TestCase
 
         $result = $this->Articles->find()->first();
         $this->assertEquals('hello-world-it-s-a-fine-day', $result['slug']);
-
     }
 }
