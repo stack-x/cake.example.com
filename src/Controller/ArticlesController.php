@@ -34,6 +34,8 @@ class ArticlesController extends AppController
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
 
+            $article->user_id = $this->session->read('Auth.User.id');
+
             if ($this->Articles->save($article)) {
                 $this->Flash->success('Your article has been created.');
                 return $this->redirect(['action' => 'index']);
