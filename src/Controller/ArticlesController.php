@@ -12,6 +12,8 @@ class ArticlesController extends AppController
 
         $this->loadComponent('Flash');
         $this->loadComponent('Paginator');
+
+        $this->Auth->allow(['index', 'view']);
     }
 
     public function index()
