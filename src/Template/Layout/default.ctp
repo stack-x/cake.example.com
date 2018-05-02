@@ -12,7 +12,7 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-
+$session = $this->request->getSession()->read();
 $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
@@ -43,9 +43,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="top-bar-section">
         <ul class="right">
             <li><a href="/articles">Articles</a></li>
-            <li><a href="/users/users">Users</a></li>
-            <li><a href="/users/users/logout">Logout</a></li>
-            <li><a href="/users/users/login">Login</a></li>
+            <?php if(!empty($session['Auth']['User']['id'])): ?>
+                <li><a href="/users/users">Users</a></li>
+                <li><a href="/users/users/logout">Logout</a></li>
+            <?php else: ?>
+                <li><a href="/users/users/login">Login</a></li>
+            <?php endif; ?>
         </ul>
     </div>
 </nav>
